@@ -3,33 +3,22 @@ pipeline {
     stages{
         stage('Build Maven'){
             steps{
-                git url:'https://github.com/akshu20791/Banking-java-project/', branch: "master"
+                git url:'https://github.com/akash120895/Banking-java-project/', branch: "master"
                sh 'mvn clean install'
             }
         }
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t akshu20791/endtoendproject31july:v1 .'
+                    sh 'docker build -t akash120895/banking and finance domian:1.0 .'
                 }
             }
         }
-          stage('Docker login') {
+          stage('Images push to docker hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-pass', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh "echo $PASS | docker login -u $USER --password-stdin"
-                    sh 'docker push akshu20791/endtoendproject31july:v1'
-                }
-            }
-        }
-        
-        
-        stage('Deploy to k8s'){
-            when{ expression {env.GIT_BRANCH == 'master'}}
-            steps{
-                script{
-                     kubernetesDeploy (configs: 'deploymentservice.yaml' ,kubeconfigId: 'k8sconfigpwd')
-                   
+                    sh 'docker push akash1208195/banking and finance domain:1.0'
                 }
             }
         }
