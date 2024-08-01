@@ -10,7 +10,7 @@ pipeline {
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t akash120895/banking and finance domian:1.0 .'
+                    sh 'docker build -t akash120895/banking_and_finance_domian:1.0 .'
                 }
             }
         }
@@ -18,7 +18,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-pass', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh "echo $PASS | docker login -u $USER --password-stdin"
-                    sh 'docker push akash1208195/banking and finance domain:1.0'
+                    sh 'docker push akash1208195/banking_and_finance_domian:1.0'
                 }
             }
         }
