@@ -23,10 +23,8 @@ pipeline {
             }
         }
         stage('deployment by ansibleplaybook'){
-            steps{
-                script{
+            step{
                     ansiblePlaybook become: true, credentialsId: 'ansible', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hots', playbook: 'ansible-playbook.yml', vaultTmpPath: ''
-                }
             }
         }
     }
