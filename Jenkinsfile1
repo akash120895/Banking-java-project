@@ -22,11 +22,12 @@ pipeline {
                 }
             }
         }
-        stage('deployment by ansibleplaybook'){
-            step{
-                    ansiblePlaybook become: true, credentialsId: 'ansible', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hots', playbook: 'ansible-playbook.yml', vaultTmpPath: ''
+        stage('Build docker image'){
+            steps{
+                script{
+                    ansiblePlaybook become: true, credentialsId: 'ansible', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hots', playbook: 'ansible-playbook.yml', vaultTmpPath: '' 
                 }
-            }     
+            }
         }
     }
 }
