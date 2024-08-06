@@ -14,11 +14,18 @@ pipeline {
                 }
             }
         }
-          stage('Images push to docker hub') {
+        stage('Images push to docker hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-pass', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh "echo $PASS | docker login -u $USER --password-stdin"
                     sh 'docker push akash12081995/banking_and_finance_domian:1.0'
+                }
+            }
+        }
+        stage('deployment by ansibleplaybook'){
+            steps{
+                script{
+                    ansiblePlaybook become: true, credentialsId: 'ansible', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hots', playbook: 'ansible-playbook.yml', vaultTmpPath: ''
                 }
             }
         }
